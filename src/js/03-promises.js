@@ -1,9 +1,11 @@
+import Notiflix from 'notiflix';
+
 function createPromise(position, delayStep) {
   const shouldResolve = Math.random() > 0.3;
   if (shouldResolve) {
-    console.log(`✅ Fulfilled promise ${position} in ${delayStep}ms`);
+    Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delayStep}ms`);
   } else {
-    console.log(`❌ Rejected promise ${position} in ${delayStep}ms`);
+    Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delayStep}ms`);
   }
 };
 
@@ -20,7 +22,6 @@ const handleSubmit= (event) => {
         timerId = setInterval(() => {
         if (i < amount.value){
         i += 1;
-        console.log("I = " + i + " Start = " + position + " Step = " + delayStep);
         createPromise(position, delayStep);
         position += delayStep;         
         }
