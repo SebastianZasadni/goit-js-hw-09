@@ -2,6 +2,7 @@ const flatpickr = require("flatpickr");;
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Notiflix from 'notiflix';
+import "notiflix/dist/notiflix.min.css";
 const convertMs = ms => {
     // Number of milliseconds per unit of time
     const second = 1000;
