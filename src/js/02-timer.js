@@ -52,23 +52,22 @@ const options = {
           };
 const fp = flatpickr("#datetime-picker", options);
 startButton.addEventListener('click', () => {
+    fp.destroy(); 
     dateInput.disabled = "true";
     startButton.disabled = "true";
-        timerId = setInterval(() => {
+    let timerId = setInterval(() => {
     let timeLeft = new Date(fp.selectedDates).getTime() - new Date().getTime();
     timeLeft = convertMs(timeLeft);
     
     if(timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds < 10){
         Notiflix.Loading.arrows();                     
     };
-    
     if(timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0){
         clearInterval(timerId);
             Notiflix.Notify.success('Your time was up!');
             Notiflix.Loading.remove();
     }
-
-    fp.destroy(); 
+    
 
     const addLeadingZero = value => {
         if (value < 10 && value > 0){
