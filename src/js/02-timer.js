@@ -1,6 +1,6 @@
 const flatpickr = require("flatpickr");;
 import flatpickr from "flatpickr";
-
+import Notiflix from 'notiflix';
 const convertMs = ms => {
     // Number of milliseconds per unit of time
     const second = 1000;
@@ -19,7 +19,11 @@ const convertMs = ms => {
   
     return { days, hours, minutes, seconds };
   }
-
+  const timer = document.querySelector('.timer');
+  timer.style.display = "flex";
+  timer.style.marginTop = "20px";
+  timer.style.gap = "10px";
+  timer.style.fontSize = "40px";
   const spanDays = document.querySelector('[data-days]');
   const spanHours = document.querySelector('[data-hours]');
   const spanMinutes = document.querySelector('[data-minutes]');
@@ -38,31 +42,51 @@ const options = {
 
         if (selectedDate.getTime() < options.defaultDate.getTime() ){
             startButton.disabled = "true";
-            alert('Please choose a date in the future');
+            Notiflix.Report.failure('Please choose a date in the future');
         }
         else{
             startButton.disabled = null;
                     };                                               
       },
-      onOpen(selectedDates){
-                    console.log('otwarte');
-        },
-    };
+          };
 
 const fp = flatpickr("#datetime-picker", options);
 
 startButton.addEventListener('click', () => {
     dateInput.disabled = "true";
     startButton.disabled = "true";
-    timerId = setInterval(() => {
+        timerId = setInterval(() => {
     let timeLeft = new Date(fp.selectedDates).getTime() - new Date().getTime();
     timeLeft = convertMs(timeLeft);
-    spanDays.textContent = timeLeft.days;
-    spanHours.textContent = timeLeft.hours;
-    spanMinutes.textContent = timeLeft.minutes;
-    spanSeconds.textContent = timeLeft.seconds;
-             }, 1000);
-    fp.destroy();
-})
+    
+    if(timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds < 10){
+        Notiflix.Loading.arrows();                     
+    };
+    
+    if(timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0){
+        clearInterval(timerId);
+            Notiflix.Notify.success('Your time was up!');
+            Notiflix.Loading.remove();
+    }
+
+    fp.destroy(); 
+
+    const addLeadingZero = value => {
+        if (value < 10 && value > 0){
+            return "0" + value;
+        }
+        else if(value === 0){
+            return "00";
+        }
+        else{
+            return value;
+        }
+    } 
+    spanDays.textContent = addLeadingZero(timeLeft.days);
+    spanHours.textContent = addLeadingZero(timeLeft.hours);
+    spanMinutes.textContent = addLeadingZero(timeLeft.minutes);
+    spanSeconds.textContent = addLeadingZero(timeLeft.seconds);
+             }, 1000);    
+});
 
 
