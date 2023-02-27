@@ -25,12 +25,12 @@ const handleSubmit= (event) => {
     let firstDelay = parseInt(delay.value);
         
          
-    timerIdMain = setInterval(() => {
+    const timerIdMain = setInterval(() => {
       createPromise(position, firstDelay)
             .then(user => Notiflix.Notify.success(`✅ Fulfilled promise ${i} in ${firstDelay}ms`))
             .catch(error => Notiflix.Notify.failure(`❌ Rejected promise ${i} in ${firstDelay}ms`));
             i += 1;
-            timerIdSecond = setInterval(() => {
+            const timerIdSecond = setInterval(() => {
               if (i < position){
                 i += 1;
                 createPromise(position, delayStep)
