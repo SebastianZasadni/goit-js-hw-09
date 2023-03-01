@@ -25,7 +25,7 @@ const handleSubmit= (event) => {
     let firstDelay = parseInt(delay.value);
         
          
-    const timerIdMain = setInterval(() => {
+    setTimeout(() => {
       createPromise(position, firstDelay)
             .then(user => Notiflix.Notify.success(`✅ Fulfilled promise ${i} in ${firstDelay}ms`))
             .catch(error => Notiflix.Notify.failure(`❌ Rejected promise ${i} in ${firstDelay}ms`));
@@ -40,8 +40,7 @@ const handleSubmit= (event) => {
              else{
                 clearInterval(timerIdSecond);}
                   }, delayStep);
-            clearInterval(timerIdMain);
-    }, firstDelay);
+               }, firstDelay);
                
  };
 form.addEventListener('submit', handleSubmit);
